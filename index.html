@@ -222,6 +222,24 @@
             margin-bottom: 20px;
             font-size: 1.8rem;
             color: white;
+            overflow: hidden;
+        }
+        
+        .website-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .website-icon .fallback-icon {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            font-size: 1.5rem;
         }
         
         .website-name {
@@ -472,6 +490,30 @@
             let currentSearch = '';
             let websites = []; // 存储加载的数据
             
+            // 从URL获取域名用于favicon
+            function getDomainFromUrl(url) {
+                try {
+                    const urlObj = new URL(url);
+                    return urlObj.hostname;
+                } catch (e) {
+                    return null;
+                }
+            }
+            
+            // 获取网站的favicon URL（使用多种服务作为备选）
+            function getFaviconUrl(url) {
+                const domain = getDomainFromUrl(url);
+                if (!domain) return null;
+                
+                // 返回一个包含多种favicon来源的数组，按优先级排序
+                return [
+                    `https://www.google.com/s2/favicons?domain=${domain}&sz=64`, // Google Favicon服务
+                    `https://favicon.yandex.net/favicon/${domain}`, // Yandex Favicon服务
+                    `https://icon.horse/icon/${domain}`, // Icon Horse服务
+                    `https://${domain}/favicon.ico` // 直接访问网站的favicon.ico
+                ];
+            }
+            
             // 从外部JSON文件加载数据
             async function loadData() {
                 try {
@@ -535,6 +577,31 @@
                 return typeMap[displayType] || 'custom';
             }
             
+            // 尝试加载favicon，如果失败则尝试下一个来源
+            function loadFaviconWithFallback(imgElement, faviconUrls, index = 0) {
+                if (index >= faviconUrls.length) {
+                    // 所有来源都失败，显示备用图标
+                    imgElement.style.display = 'none';
+                    const fallback = imgElement.nextElementSibling;
+                    if (fallback && fallback.classList.contains('fallback-icon')) {
+                        fallback.style.display = 'flex';
+                    }
+                    return;
+                }
+                
+                imgElement.src = faviconUrls[index];
+                imgElement.onerror = function() {
+                    loadFaviconWithFallback(imgElement, faviconUrls, index + 1);
+                };
+                imgElement.onload = function() {
+                    imgElement.style.display = 'block';
+                    const fallback = imgElement.nextElementSibling;
+                    if (fallback && fallback.classList.contains('fallback-icon')) {
+                        fallback.style.display = 'none';
+                    }
+                };
+            }
+            
             // 加载并显示网站
             function loadWebsites() {
                 // 过滤网站（只根据搜索词过滤）
@@ -568,6 +635,35 @@
                     const websiteCard = document.createElement('div');
                     websiteCard.className = 'website-card';
                     
+                    // 获取favicon URL列表
+                    const faviconUrls = getFaviconUrl(website.url);
+                    
+                    // 生成备用图标的背景色（基于网站名称生成固定颜色）
+                    const hash = website.name.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+                    const hue = hash % 360;
+                    const fallbackColor = `hsl(${hue}, 70%, 60%)`;
+                    
+                    // 创建图标HTML
+                    let iconHTML = '';
+                    if (faviconUrls) {
+                        iconHTML = `
+                            <div class="website-icon">
+                                <img src="" alt="${website.name} icon" style="display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="fallback-icon" style="display: flex; background: ${fallbackColor};">
+                                    ${website.name.charAt(0).toUpperCase()}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        iconHTML = `
+                            <div class="website-icon">
+                                <div class="fallback-icon" style="display: flex; background: ${fallbackColor};">
+                                    ${website.name.charAt(0).toUpperCase()}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
                     // 检查是否有展示框数据
                     let displayBoxHTML = '';
                     if (website.displayText && website.displayText.trim() !== '') {
@@ -577,9 +673,7 @@
                     }
                     
                     websiteCard.innerHTML = `
-                        <div class="website-icon" style="background-color: ${website.color};">
-                            <i class="${website.icon}"></i>
-                        </div>
+                        ${iconHTML}
                         <div class="website-name">${website.name}</div>
                         <div class="website-desc">${website.description}</div>
                         <a href="${website.url}" target="_blank" class="website-link">
@@ -589,6 +683,15 @@
                     `;
                     
                     websitesContainer.appendChild(websiteCard);
+                    
+                    // 尝试加载favicon
+                    if (faviconUrls) {
+                        const img = websiteCard.querySelector('img');
+                        const fallback = websiteCard.querySelector('.fallback-icon');
+                        
+                        // 尝试加载第一个favicon来源
+                        loadFaviconWithFallback(img, faviconUrls, 0);
+                    }
                 });
             }
             
