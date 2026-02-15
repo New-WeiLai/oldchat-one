@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>oldchat网址导航</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://affiliates.serv.adse.site/assets/ads/ad.js" class="adScriptClass"><script>
+    
+    <!-- 广告脚本 -->
+    <script src="https://affiliates.serv.adse.site/assets/ads/ad.js" class="adScriptClass"></script>
+    
     <style>
         * {
             margin: 0;
@@ -133,7 +136,7 @@
         
         .search-box {
             max-width: 600px;
-            margin: 0 auto 40px;
+            margin: 0 auto 20px;
             position: relative;
         }
         
@@ -158,6 +161,31 @@
             top: 50%;
             transform: translateY(-50%);
             color: #95a5a6;
+        }
+        
+        /* 广告区域样式 */
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto 30px;
+            width: 100%;
+        }
+        
+        .MainAdverTiseMentDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+        }
+        
+        .MainAdverTiseMentDiv:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
         
         .websites-container {
@@ -380,6 +408,10 @@
                 width: 50px;
                 height: 50px;
             }
+            
+            .MainAdverTiseMentDiv {
+                transform: scale(0.95);
+            }
         }
     </style>
 </head>
@@ -410,6 +442,11 @@
                 <i class="fas fa-search"></i>
             </div>
         </header>
+        
+        <!-- 广告区域 - 在搜索框下面 -->
+        <div class="ad-container">
+            <div class='MainAdverTiseMentDiv' data-publisher="eyJpdiI6IjdVanBBNVVJaDJ0L2dpV2JQOTRKc1E9PSIsInZhbHVlIjoiUEw1dE8zTklVVk5rU0RTZjhtUGdXdz09IiwibWFjIjoiYmI1YWMxZDgwMmM5M2NlYjBmN2VmN2QwODQyZWUyOWEwNDYzMGI5YWFmNmI4YjQxYmQ5YmZmODVmNDJjOWQwZSIsInRhZyI6IiJ9" data-adsize="350x90"></div>
+        </div>
         
         <div id="websitesContainer" class="websites-container">
             <!-- 加载动画 -->
