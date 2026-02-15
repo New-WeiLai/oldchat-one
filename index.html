@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oldchat网址导航</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://affiliates.serv.adse.site/assets/ads/ad.js" class="adScriptClass"><script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 域名提供者提示区域 */
+        .domain-notice {
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .domain-notice::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        .domain-notice strong {
+            font-weight: 700;
+            color: #f1c40f;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .domain-notice .peng-name {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0 25px;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .logo-container {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .site-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid white;
+        }
+        
+        .logo-fallback {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid white;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        
+        .title-highlight {
+            color: #3498db;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+        
+        .websites-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .website-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        .website-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .website-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .website-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .website-desc {
+            color: #7f8c8d;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .website-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            color: #3498db;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .website-link:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        /* 右下角展示框样式 */
+        .display-box {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            max-width: 120px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        /* 不同样式的展示框 */
+        .display-box.tag {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #d63031;
+            border-left: 4px solid #d63031;
+        }
+        
+        .display-box.status {
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            color: #0984e3;
+            border-left: 4px solid #0984e3;
+        }
+        
+        .display-box.info {
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            color: #00b894;
+            border-left: 4px solid #00b894;
+        }
+        
+        .display-box.warning {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #e17055;
+            border-left: 4px solid #e17055;
+        }
+        
+        .display-box.custom {
+            background: linear-gradient(135deg, #d4a5ff, #a8edea);
+            color: #6c5ce7;
+            border-left: 4px solid #6c5ce7;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: #ffeaea;
+            border-radius: 10px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .websites-container {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .domain-notice {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            
+            .display-box {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+                max-width: 100px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .websites-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box input {
+                padding: 12px 18px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .domain-notice {
+                font-size: 0.9rem;
+                padding: 8px 10px;
+            }
+            
+            .domain-notice .peng-name {
+                padding: 3px 8px;
+                margin-left: 4px;
+            }
+            
+            .site-logo, .logo-fallback {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 域名提供者提示区域 -->
+        <div class="domain-notice">
+            <i class="fas fa-globe-americas" style="margin-right: 8px;"></i>
+            <span>域名由 <strong>@peng</strong> 提供</span>
+            <span class="peng-name">特此鸣谢</span>
+        </div>
+        
+        <header>
+            <div class="header-content">
+                <div class="logo-container">
+                    <!-- 网站logo，如果图片不存在则显示备用图标 -->
+                    <img src="oldchat_logo.png" alt="oldchat logo" class="site-logo" id="siteLogo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+                    <div class="logo-fallback" id="logoFallback" style="display: none;">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                </div>
+                <h1><span class="title-highlight">oldchat</span>网址导航</h1>
+            </div>
+            <p class="subtitle">快速访问您最喜爱的网站</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索网站名称或描述...">
+                <i class="fas fa-search"></i>
+            </div>
+        </header>
+        
+        <div id="websitesContainer" class="websites-container">
+            <!-- 加载动画 -->
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>正在加载网址数据...</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2026 <span class="title-highlight">oldchat</span>网址导航 | 共 <span id="websiteCount">0</span> 个网站</p>
+            <p style="margin-top: 5px; font-size: 0.85rem;">域名由 <strong>@peng</strong> 提供，特此感谢！</p>
+        </footer>
+    </div>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const websitesContainer = document.getElementById('websitesContainer');
+            const searchInput = document.getElementById('searchInput');
+            const websiteCountElement = document.getElementById('websiteCount');
+            
+            let currentSearch = '';
+            let websites = []; // 存储加载的数据
+            
+            // 从外部JSON文件加载数据
+            async function loadData() {
+                try {
+                    // 显示加载状态
+                    websitesContainer.innerHTML = `
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>正在加载网址数据...</p>
+                        </div>
+                    `;
+                    
+                    // 使用fetch从外部JSON文件加载数据
+                    const response = await fetch('websites.json');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP错误! 状态: ${response.status}`);
+                    }
+                    
+                    const text = await response.text();
+                    
+                    // 尝试解析JSON
+                    try {
+                        websites = JSON.parse(text);
+                    } catch (parseError) {
+                        console.error('JSON解析错误:', parseError);
+                        throw new Error(`JSON格式错误: ${parseError.message}`);
+                    }
+                    
+                    // 数据加载成功后，显示网站
+                    loadWebsites();
+                    
+                } catch (error) {
+                    console.error('加载数据失败:', error);
+                    
+                    // 显示错误信息
+                    websitesContainer.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                            <h3>数据加载失败</h3>
+                            <p>无法加载网址数据，请检查websites.json文件是否存在且格式正确。</p>
+                            <p style="margin-top: 10px; font-size: 0.9rem;">错误信息: ${error.message}</p>
+                            <p style="margin-top: 10px; font-size: 0.9rem;">请检查JSON文件格式，确保没有注释和多余的逗号。</p>
+                            <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                <i class="fas fa-redo"></i> 重新加载
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 根据displayType返回对应的CSS类名
+            function getDisplayBoxClass(displayType) {
+                const typeMap = {
+                    'tag': 'tag',
+                    'status': 'status',
+                    'info': 'info',
+                    'warning': 'warning',
+                    'custom': 'custom'
+                };
+                
+                return typeMap[displayType] || 'custom';
+            }
+            
+            // 加载并显示网站
+            function loadWebsites() {
+                // 过滤网站（只根据搜索词过滤）
+                let filteredWebsites = websites.filter(website => {
+                    const matchesSearch = !currentSearch || 
+                        website.name.toLowerCase().includes(currentSearch.toLowerCase()) || 
+                        website.description.toLowerCase().includes(currentSearch.toLowerCase());
+                    
+                    return matchesSearch;
+                });
+                
+                // 清空容器
+                websitesContainer.innerHTML = '';
+                
+                // 显示网站数量
+                websiteCountElement.textContent = filteredWebsites.length;
+                
+                // 如果没有找到结果
+                if (filteredWebsites.length === 0) {
+                    websitesContainer.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search fa-2x" style="margin-bottom: 15px;"></i>
+                            <p>未找到匹配的网站，请尝试其他搜索词</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 创建网站卡片
+                filteredWebsites.forEach(website => {
+                    const websiteCard = document.createElement('div');
+                    websiteCard.className = 'website-card';
+                    
+                    // 检查是否有展示框数据
+                    let displayBoxHTML = '';
+                    if (website.displayText && website.displayText.trim() !== '') {
+                        const displayType = website.displayType || 'custom';
+                        const displayClass = getDisplayBoxClass(displayType);
+                        displayBoxHTML = `<div class="display-box ${displayClass}">${website.displayText}</div>`;
+                    }
+                    
+                    websiteCard.innerHTML = `
+                        <div class="website-icon" style="background-color: ${website.color};">
+                            <i class="${website.icon}"></i>
+                        </div>
+                        <div class="website-name">${website.name}</div>
+                        <div class="website-desc">${website.description}</div>
+                        <a href="${website.url}" target="_blank" class="website-link">
+                            访问网站 <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+                        </a>
+                        ${displayBoxHTML}
+                    `;
+                    
+                    websitesContainer.appendChild(websiteCard);
+                });
+            }
+            
+            // 搜索框输入事件
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                loadWebsites();
+            });
+            
+            // 添加一个简单的动画效果给域名提示区域
+            const domainNotice = document.querySelector('.domain-notice');
+            domainNotice.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            domainNotice.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // 初始加载数据
+            loadData();
+        });
+    </script>
+</body>
+</html>

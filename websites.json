@@ -1,0 +1,19 @@
+[
+     {
+       "name": "旧聊官网",
+       "url": "https://oldchat.online",
+       "description": "旧聊官网",
+       "category": "官网",
+       "icon": "fas fa-globe",
+       "color": "#FFFFFF"
+     },
+     {
+       "name": "网站名称",
+       "url": "https://example.com",
+       "description": "网站描述",
+       "icon": "fas fa-globe",
+       "color": "#3498db",
+       "displayText": "推荐",
+       "displayType": "tag"
+     }
+]
