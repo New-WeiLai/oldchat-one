@@ -77,15 +77,16 @@
         
         header {
             text-align: center;
-            padding: 30px 0 25px;
+            padding: 30px 0 15px;
         }
         
         .header-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
+            position: relative;
         }
         
         .logo-container {
@@ -117,6 +118,14 @@
             border: 3px solid white;
         }
         
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
         h1 {
             color: #2c3e50;
             font-size: 2.8rem;
@@ -128,10 +137,62 @@
             color: #3498db;
         }
         
-        .subtitle {
-            color: #7f8c8d;
+        /* 友链样式 */
+        .friend-link {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
             font-size: 1.1rem;
-            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-left: 10px;
+        }
+        
+        .friend-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+        
+        .friend-link i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .friend-link .link-domain {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-left: 8px;
+            padding-left: 8px;
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 网站描述样式 */
+        .site-description {
+            color: #5a6b7a;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .site-description i {
+            color: #3498db;
+            margin: 0 5px;
         }
         
         .search-box {
@@ -383,8 +444,19 @@
                 margin-bottom: 15px;
             }
             
+            .title-wrapper {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
             h1 {
                 font-size: 2.2rem;
+            }
+            
+            .friend-link {
+                margin-left: 0;
+                font-size: 1rem;
+                padding: 6px 16px;
             }
             
             .domain-notice {
@@ -396,6 +468,11 @@
                 font-size: 0.8rem;
                 padding: 5px 10px;
                 max-width: 100px;
+            }
+            
+            .site-description {
+                font-size: 1rem;
+                padding: 10px 20px;
             }
         }
         
@@ -430,6 +507,27 @@
             .MainAdverTiseMentDiv {
                 transform: scale(0.95);
             }
+            
+            .site-description {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            
+            .friend-link {
+                font-size: 0.9rem;
+                padding: 5px 12px;
+            }
+            
+            .friend-link i {
+                margin-right: 5px;
+                font-size: 1rem;
+            }
+            
+            .friend-link .link-domain {
+                font-size: 0.75rem;
+                margin-left: 5px;
+                padding-left: 5px;
+            }
         }
     </style>
 </head>
@@ -451,9 +549,23 @@
                         <i class="fas fa-compass"></i>
                     </div>
                 </div>
-                <h1><span class="title-highlight">oldchat</span>网址导航</h1>
+                
+                <div class="title-wrapper">
+                    <h1><span class="title-highlight">oldchat</span>网址导航</h1>
+                    
+                    <!-- 友链 - 我的个人主页 -->
+                    <a href="https://6956950.xyz" target="_blank" class="friend-link">
+                        <i class="fas fa-user"></i>
+                        我的个人主页
+                        <span class="link-domain">6956950.xyz</span>
+                    </a>
+                </div>
             </div>
-            <p class="subtitle">快速访问您最喜爱的网站</p>
+            
+            <!-- 网站描述 -->
+            <div class="site-description">
+                <i class="fas fa-link"></i> OldChat网址导航，集合所有oldchat系列域名 <i class="fas fa-star"></i> 包括其他在@peng那里注册的域名
+            </div>
             
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="搜索网站名称或描述...">
@@ -475,12 +587,15 @@
         </div>
         
         <footer>
-            <p>© 2026 <span class="title-highlight">oldchat</span>网址导航 | 共 <span id="websiteCount">0</span> 个网站</p>
+            <p>© <span id="currentYear"></span> <span class="title-highlight">oldchat</span>网址导航 | 共 <span id="websiteCount">0</span> 个网站</p>
             <p style="margin-top: 5px; font-size: 0.85rem;">域名由 <strong>@peng</strong> 提供，特此感谢！</p>
         </footer>
     </div>
 
     <script>
+        // 获取当前年份并显示在页脚
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
             const websitesContainer = document.getElementById('websitesContainer');
