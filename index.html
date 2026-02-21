@@ -228,6 +228,7 @@
             box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
         }
         
         .download-link:hover {
@@ -241,7 +242,7 @@
             font-size: 1.3rem;
         }
         
-        .download-link .domain-name {
+        .download-link .version-tag {
             background: rgba(255, 255, 255, 0.2);
             padding: 4px 12px;
             border-radius: 30px;
@@ -709,11 +710,11 @@
                         <span class="group-code">GRP-86HT7X</span>
                     </a>
                     
-                    <!-- 下载旧聊 - 跳转到oldchat.online -->
-                    <a href="https://oldchat.online" target="_blank" class="download-link">
+                    <!-- 下载旧聊 - 动态获取APK地址 -->
+                    <a href="#" id="downloadLink" class="download-link" target="_blank">
                         <i class="fas fa-download"></i>
                         下载旧聊
-                        <span class="domain-name">oldchat.online</span>
+                        <span class="version-tag" id="versionTag">获取版本中...</span>
                     </a>
                 </div>
             </div>
@@ -753,6 +754,8 @@
                 <a href="https://dkxc1123.cc.cd" target="_blank" class="friend-link-footer">癫狂小丑の个人主页</a>
                 <span class="link-separator">|</span>
                 <a href="https://oldchat.shop" target="_blank" class="friend-link-footer">拾物 Web</a>
+                <span class="link-separator">|</span>
+                <a href="https://oldchat.online" target="_blank" class="friend-link-footer">旧聊官网</a>
             </div>
             
             <!-- 源代码下载链接 -->
@@ -767,6 +770,54 @@
         // 获取当前年份并显示在页脚
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         
+        // 旧聊更新信息
+        let oldchatUpdateInfo = null;
+        
+        // 从服务器获取旧聊更新信息
+        async function fetchOldchatUpdateInfo() {
+            try {
+                const response = await fetch('http://60.205.94.101:8080/update/update.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态: ${response.status}`);
+                }
+                oldchatUpdateInfo = await response.json();
+                
+                // 更新下载链接
+                updateDownloadLink();
+            } catch (error) {
+                console.error('获取旧聊更新信息失败:', error);
+                // 使用默认下载地址作为备用
+                const versionTag = document.getElementById('versionTag');
+                if (versionTag) {
+                    versionTag.textContent = '获取失败';
+                }
+            }
+        }
+        
+        // 更新下载链接
+        function updateDownloadLink() {
+            const downloadLink = document.getElementById('downloadLink');
+            const versionTag = document.getElementById('versionTag');
+            
+            if (oldchatUpdateInfo && oldchatUpdateInfo.apk) {
+                // 构建下载URL
+                const apkUrl = `http://60.205.94.101:8080/update/${oldchatUpdateInfo.apk}`;
+                downloadLink.href = apkUrl;
+                
+                // 显示版本信息
+                versionTag.textContent = `v${oldchatUpdateInfo.version_name || '?'}`;
+                
+                // 如果强制更新，添加提示
+                if (oldchatUpdateInfo.force) {
+                    downloadLink.style.background = 'linear-gradient(135deg, #e67e22, #d35400)';
+                }
+            } else {
+                // 备用链接
+                downloadLink.href = 'https://oldchat.online';
+                versionTag.textContent = '官网';
+            }
+        }
+        
         // 打开旧聊应用的函数
         function openOldChatApp(groupCode) {
             // 尝试通过intent打开应用（Android）
@@ -774,10 +825,6 @@
             
             // 尝试通过自定义URL scheme打开应用
             const schemeUrl = `oldchat://join?group=${groupCode}`;
-            
-            // 创建隐藏的iframe用于尝试打开应用
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
             
             // 尝试打开应用
             if (navigator.userAgent.toLowerCase().indexOf('android') > -1) {
@@ -788,10 +835,15 @@
                 window.location.href = schemeUrl;
             }
             
-            // 设置一个定时器，如果应用没有打开，则跳转到下载页面
+            // 设置一个定时器，如果应用没有打开，则询问是否下载
             setTimeout(function() {
                 if (confirm('未检测到旧聊应用，是否前往下载？')) {
-                    window.location.href = 'https://oldchat.online';
+                    // 如果有更新信息，使用APK下载地址，否则使用官网
+                    if (oldchatUpdateInfo && oldchatUpdateInfo.apk) {
+                        window.location.href = `http://60.205.94.101:8080/update/${oldchatUpdateInfo.apk}`;
+                    } else {
+                        window.location.href = 'https://oldchat.online';
+                    }
                 }
             }, 500);
             
@@ -1028,6 +1080,9 @@
             domainNotice.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1)';
             });
+            
+            // 获取旧聊更新信息
+            fetchOldchatUpdateInfo();
             
             // 初始加载数据
             loadData();

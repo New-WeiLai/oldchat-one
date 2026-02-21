@@ -2,21 +2,28 @@
      {
        "name": "oldchat官网",
        "url": "https://oldchat.online",
-       "description": "旧聊 OldChat 1.2.17. 支持 Android 2.3+ 的即时通讯应用",
+       "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
+       "displayText": "官网",
+       "displayType": "tag"
+     },
+     {
+       "name": "Oldchat官网",
+       "url": "https://old.chat",
+       "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
        "displayText": "官网",
        "displayType": "tag"
      },
      {
     "name": "OldChat官网",
     "url": "https://oldchat.chat",
-    "description": "旧聊 OldChat 1.2.17. 支持 Android 2.3+ 的即时通讯应用",
-    "displayText": "跳转至官网",
+    "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
+    "displayText": "官网",
     "displayType": "tag"
   },
   {
     "name": "oldchat网址导航",
     "url": "https://oldchat.one",
-    "description": "OldChat网址导航，集合所有oldchat系列域名（包括其他在@peng那里注册的域名）",
+    "description": "OldChat网址导航，集合所有oldchat系列域名（包括其他在@peng那里注册的域名）旧聊群号：GRP-86HT7X",
     "displayText": "本站",
     "displayType": "tag"
   },
@@ -28,10 +35,17 @@
     "displayType": "tag"
   },
     {
-    "name": "拾物Siwo（原旧聊小店）",
+    "name": "拾物Siwo Web（原旧聊小店）",
     "url": "https://oldchat.shop",
-    "description": "拾物Siwo，轻实资源，一应拾取。",
-    "displayText": "小店",
+    "description": "拾物Siwo，轻实资源，一应拾取。 交流群：GRP-WO2OM2，聊天室：GRP-NZ09A4",
+    "displayText": "小店"
+    "displayType": "tag"
+  },
+    {
+    "name": "oldchat历史版本站",
+    "url": "https://oldchat.cn",
+    "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
+    "displayText": "历史",
     "displayType": "tag"
   }
 ]
