@@ -711,10 +711,10 @@
                     </a>
                     
                     <!-- 下载旧聊 - 动态获取APK地址 -->
-                    <a href="#" id="downloadLink" class="download-link" target="_blank">
+                    <a href="#" id="downloadLink" class="download-link" target="_blank" onclick="return handleDownloadClick(event)">
                         <i class="fas fa-download"></i>
                         下载旧聊
-                        <span class="version-tag" id="versionTag">获取版本中...</span>
+                        <span class="version-tag" id="versionTag">准备下载</span>
                     </a>
                 </div>
             </div>
@@ -754,8 +754,6 @@
                 <a href="https://dkxc1123.cc.cd" target="_blank" class="friend-link-footer">癫狂小丑の个人主页</a>
                 <span class="link-separator">|</span>
                 <a href="https://oldchat.shop" target="_blank" class="friend-link-footer">拾物 Web</a>
-                <span class="link-separator">|</span>
-                <a href="https://oldchat.online" target="_blank" class="friend-link-footer">旧聊官网</a>
             </div>
             
             <!-- 源代码下载链接 -->
@@ -772,26 +770,80 @@
         
         // 旧聊更新信息
         let oldchatUpdateInfo = null;
+        let downloadUrl = 'https://oldchat.online'; // 默认下载地址
+        
+        // 备选下载地址列表
+        const downloadMirrors = [
+            'https://oldchat.online',
+            'https://old.chat',
+            'https://oldchat.chat',
+            'https://oldchat.cn'
+        ];
+        
+        // 处理下载点击事件
+        function handleDownloadClick(event) {
+            const link = document.getElementById('downloadLink');
+            if (link.href === '#' || link.href === window.location.href) {
+                event.preventDefault();
+                // 如果没有获取到下载地址，直接使用默认地址
+                window.location.href = downloadUrl;
+                return false;
+            }
+            return true; // 允许正常跳转
+        }
         
         // 从服务器获取旧聊更新信息
         async function fetchOldchatUpdateInfo() {
-            try {
-                const response = await fetch('http://60.205.94.101:8080/update/update.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP错误! 状态: ${response.status}`);
-                }
-                oldchatUpdateInfo = await response.json();
-                
-                // 更新下载链接
-                updateDownloadLink();
-            } catch (error) {
-                console.error('获取旧聊更新信息失败:', error);
-                // 使用默认下载地址作为备用
-                const versionTag = document.getElementById('versionTag');
-                if (versionTag) {
-                    versionTag.textContent = '获取失败';
+            const versionTag = document.getElementById('versionTag');
+            versionTag.textContent = '获取中...';
+            
+            // 尝试多个可能的API端点
+            const apiEndpoints = [
+                'http://60.205.94.101:8080/update/update.json',
+                'https://cors-anywhere.herokuapp.com/http://60.205.94.101:8080/update/update.json', // CORS代理
+                'https://api.allorigins.win/raw?url=http://60.205.94.101:8080/update/update.json' // 另一个CORS代理
+            ];
+            
+            for (const endpoint of apiEndpoints) {
+                try {
+                    console.log('尝试获取更新信息:', endpoint);
+                    const response = await fetch(endpoint, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP错误! 状态: ${response.status}`);
+                    }
+                    
+                    const text = await response.text();
+                    console.log('获取到的响应:', text);
+                    
+                    // 尝试解析JSON
+                    try {
+                        oldchatUpdateInfo = JSON.parse(text);
+                        console.log('解析成功:', oldchatUpdateInfo);
+                        
+                        // 更新下载链接
+                        updateDownloadLink();
+                        return; // 成功后退出
+                    } catch (parseError) {
+                        console.error('JSON解析错误:', parseError);
+                    }
+                } catch (error) {
+                    console.error('请求失败:', endpoint, error.message);
+                    // 继续尝试下一个端点
                 }
             }
+            
+            // 所有尝试都失败，使用默认值
+            console.log('所有API尝试失败，使用默认下载地址');
+            versionTag.textContent = '官网下载';
+            downloadUrl = 'https://oldchat.online';
+            document.getElementById('downloadLink').href = downloadUrl;
         }
         
         // 更新下载链接
@@ -801,8 +853,8 @@
             
             if (oldchatUpdateInfo && oldchatUpdateInfo.apk) {
                 // 构建下载URL
-                const apkUrl = `http://60.205.94.101:8080/update/${oldchatUpdateInfo.apk}`;
-                downloadLink.href = apkUrl;
+                downloadUrl = `http://60.205.94.101:8080/update/${oldchatUpdateInfo.apk}`;
+                downloadLink.href = downloadUrl;
                 
                 // 显示版本信息
                 versionTag.textContent = `v${oldchatUpdateInfo.version_name || '?'}`;
@@ -810,11 +862,17 @@
                 // 如果强制更新，添加提示
                 if (oldchatUpdateInfo.force) {
                     downloadLink.style.background = 'linear-gradient(135deg, #e67e22, #d35400)';
+                    versionTag.textContent += ' (强制)';
                 }
+                
+                console.log('下载链接已更新:', downloadUrl);
             } else {
-                // 备用链接
-                downloadLink.href = 'https://oldchat.online';
-                versionTag.textContent = '官网';
+                // 使用随机镜像作为备用
+                const randomMirror = downloadMirrors[Math.floor(Math.random() * downloadMirrors.length)];
+                downloadUrl = randomMirror;
+                downloadLink.href = downloadUrl;
+                versionTag.textContent = '官网下载';
+                console.log('使用备用下载地址:', downloadUrl);
             }
         }
         
@@ -838,12 +896,7 @@
             // 设置一个定时器，如果应用没有打开，则询问是否下载
             setTimeout(function() {
                 if (confirm('未检测到旧聊应用，是否前往下载？')) {
-                    // 如果有更新信息，使用APK下载地址，否则使用官网
-                    if (oldchatUpdateInfo && oldchatUpdateInfo.apk) {
-                        window.location.href = `http://60.205.94.101:8080/update/${oldchatUpdateInfo.apk}`;
-                    } else {
-                        window.location.href = 'https://oldchat.online';
-                    }
+                    window.location.href = downloadUrl;
                 }
             }, 500);
             
