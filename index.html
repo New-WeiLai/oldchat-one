@@ -544,6 +544,30 @@
             font-size: 0.9rem;
         }
         
+        /* GitHub仓库链接样式 */
+        .github-link {
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .github-link a {
+            color: #7f8c8d;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            margin-left: 5px;
+        }
+        
+        .github-link a:hover {
+            color: #3498db;
+            text-decoration: underline;
+        }
+        
+        .github-link i {
+            color: #333;
+            margin-right: 5px;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .websites-container {
                 grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -760,6 +784,12 @@
             <div class="source-download">
                 <i class="fas fa-code"></i> 源代码下载：
                 <a href="index.zip" download="index.zip">index.zip</a>
+            </div>
+            
+            <!-- GitHub仓库链接 -->
+            <div class="github-link">
+                <i class="fab fa-github"></i> GitHub仓库：
+                <a href="https://github.com/new-weilai/oldchat-one" target="_blank">github.com/new-weilai/oldchat-one</a>
             </div>
         </footer>
     </div>
