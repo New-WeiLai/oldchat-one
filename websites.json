@@ -14,11 +14,11 @@
        "displayType": "tag"
      },
      {
-    "name": "OldChat官网",
-    "url": "https://oldchat.chat",
-    "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
-    "displayText": "官网",
-    "displayType": "tag"
+       "name": "OldChat官网",
+       "url": "https://oldchat.chat",
+       "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
+       "displayText": "官网",
+       "displayType": "tag"
   },
   {
     "name": "oldchat网址导航",
