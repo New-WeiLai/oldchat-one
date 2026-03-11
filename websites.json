@@ -31,11 +31,11 @@
     "name": "ColorYi 喵~ の个人主页",
     "url": "https://coloryi.top",
     "description": "一个建立于21世纪的小站，存活于互联网的边缘",
-    "displayText": "Coloryi",
+    "displayText": "个人主页",
     "displayType": "tag"
   },
     {
-    "name": "拾物Siwo Web（原旧聊小店）",
+    "name": "拾物Siwo Web（原旧聊小店）//已停用",
     "url": "https://oldchat.shop",
     "description": "拾物Siwo，轻实资源，一应拾取。 交流群：GRP-WO2OM2，聊天室：GRP-NZ09A4",
     "displayText": "小店",
@@ -46,6 +46,62 @@
     "url": "https://oldchat.cn",
     "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
     "displayText": "历史",
+    "displayType": "tag"
+  },
+  {
+    "name": "旧聊BBS资源分享论坛",
+    "url": "https://oldchatbbs.cn",
+    "description": "旧聊BBS资源分享论坛是「旧聊」软件的官方社区，汇集软件、游戏、影视、书籍等各类资源的交流与分享，打造怀旧向的综合资源乐园。",
+    "displayText": "论坛",
+    "displayType": "tag"
+  },
+  {
+    "name": "旧聊BBS资源分享论坛（非中国大陆）",
+    "url": "https://oldchatbbs.com",
+    "description": "旧聊BBS资源分享论坛是「旧聊」软件的官方社区，汇集软件、游戏、影视、书籍等各类资源的交流与分享，打造怀旧向的综合资源乐园。",
+    "displayText": "论坛",
+    "displayType": "tag"
+  },
+  {
+    "name": "旧聊BBS破解资源分享论坛",
+    "url": "https://oldchat.blog",
+    "description": "旧聊BBS资源分享论坛是「旧聊」软件的官方社区，汇集软件、游戏、影视、书籍等各类资源的交流与分享，打造怀旧向的综合资源乐园。",
+    "displayText": "论坛",
+    "displayType": "tag"
+  },
+  {
+    "name": "OldchatBBS",
+    "url": "https://t.oldchatbbs.com",
+    "description": "腐竹mcl0开发的OldchatBBS",
+    "displayText": "论坛",
+    "displayType": "tag"
+  },
+  {
+    "name": "Nwely（陌筏）の 个人主页",
+    "url": "https://nwely.top",
+    "description": "我的个人主页",
+    "displayText": "个人主页",
+    "displayType": "tag"
+  },
+  {
+    "name": "旧聊 Web",
+    "url": "http://60.205.94.101:8080/app",
+    "description": "旧聊 OldChat 支持 Android 2.3+ 的即时通讯应用",
+    "displayText": "网页版",
+    "displayType": "tag"
+  },
+  {
+    "name": "户窗的博客",
+    "url": "https://huchuang.xyz",
+    "description": "户窗的博客",
+    "displayText": "博客",
+    "displayType": "tag"
+  },
+  {
+    "name": "STARDUST的个人主页",
+    "url": "https://sooth.online",
+    "description": "stardust的个人主页",
+    "displayText": "个人主页",
     "displayType": "tag"
   }
 ]
