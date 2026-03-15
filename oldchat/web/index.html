@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>旧聊 Web</title>
+    <link rel="stylesheet" href="app-assets/app.css?v=20260228-parsefix3" />
+  </head>
+  <body>
+    <div id="app" class="app" data-view="chats" data-panel="list">
+      <div class="app-bg"></div>
+      <header class="topbar">
+        <div class="brand">
+          <img src="oldchat_logo.png" alt="旧聊" />
+          <div>
+            <div class="brand-title">旧聊</div>
+            <div class="brand-subtitle">OldChat Web</div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="status-pill" id="statusPill">离线</div>
+          <div class="user-pill" id="userPill">未登录</div>
+          <button class="ghost" id="btnLogout">退出</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-head">
+            <div class="search">
+              <input id="searchInput" placeholder="搜索好友或群组" />
+            </div>
+            <div class="tabs">
+              <button class="tab active" data-view="chats">聊天</button>
+              <button class="tab" data-view="groups">群组</button>
+            </div>
+          </div>
+          <div class="list" id="listView"></div>
+        </aside>
+
+        <section class="conversation" id="conversation">
+          <div class="conversation-head">
+            <button class="ghost mini" id="btnBackList">列表</button>
+            <div>
+              <div class="conversation-title" id="conversationTitle">旧聊 Web</div>
+              <div class="conversation-meta" id="conversationMeta">选择一个会话开始聊天</div>
+            </div>
+          </div>
+          <div class="messages" id="messageList"></div>
+          <div class="empty" id="emptyState">
+            <div class="empty-title">还没有打开的会话</div>
+            <div class="empty-subtitle">从左侧选择好友或群组开始聊天</div>
+          </div>
+          <form class="composer" id="composer">
+            <div class="composer-tools">
+              <select id="burnSeconds" class="burn-select" title="阅后即焚">
+                <option value="0">普通消息</option>
+                <option value="5">阅后即焚 5 秒</option>
+                <option value="10">阅后即焚 10 秒</option>
+                <option value="20">阅后即焚 20 秒</option>
+                <option value="30">阅后即焚 30 秒</option>
+                <option value="60">阅后即焚 60 秒</option>
+                <option value="300">阅后即焚 300 秒</option>
+              </select>
+            </div>
+            <div id="composerQuote" class="composer-quote">
+              <div class="composer-quote-text" id="composerQuoteText"></div>
+              <button type="button" class="ghost mini" id="btnClearQuote">取消引用</button>
+            </div>
+            <textarea id="messageInput" rows="1" placeholder="输入消息..." maxlength="2000"></textarea>
+            <button type="submit" class="primary" id="btnSend">发送</button>
+          </form>
+        </section>
+
+      </main>
+    </div>
+
+    <div id="loginView" class="login">
+      <div class="login-card">
+        <div class="login-brand">
+          <img src="oldchat_logo.png" alt="旧聊" />
+          <div>
+            <div class="login-title">欢迎回来</div>
+            <div class="login-subtitle">旧聊 Web · 轻量在线聊天</div>
+          </div>
+        </div>
+        <form id="loginForm" class="login-form">
+          <label>账号 / 邮箱 / UID</label>
+          <input id="loginIdentifier" placeholder="输入用户名或邮箱" autocomplete="username" />
+          <label>密码</label>
+          <input id="loginPassword" type="password" placeholder="输入密码" autocomplete="current-password" />
+          <button type="submit" class="primary">登录</button>
+          <div class="login-hint">首次使用请在手机端注册账号</div>
+        </form>
+        <div class="login-footer">旧聊 Web 与移动端同账号体系</div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+    <div id="burnModal" class="burn-modal">
+      <div class="burn-modal-card">
+        <div class="burn-modal-title">阅后即焚消息</div>
+        <div class="burn-modal-content" id="burnModalContent"></div>
+        <div class="burn-modal-countdown" id="burnModalCountdown"></div>
+        <button type="button" class="ghost" id="btnBurnClose">关闭</button>
+      </div>
+    </div>
+    <script src="app-assets/app.js?v=20260228-parsefix3"></script>
+  </body>
+</html>
