@@ -283,7 +283,7 @@
     if (state.refreshInFlight) return false;
     state.refreshInFlight = true;
     try {
-      const resp = await apiRequest('http://60.205.94.101:8080/v1/auth/refresh', {
+      const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/auth/refresh', {
         method: 'POST',
         body: { refresh_token: state.refreshToken },
         auth: false,
@@ -313,7 +313,7 @@
       platform: 'web',
       app_version: 'web',
     };
-    const resp = await apiRequest('http://60.205.94.101:8080/v1/auth/login', { method: 'POST', body, auth: false });
+    const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/auth/login', { method: 'POST', body, auth: false });
     state.accessToken = resp.data.access_token;
     state.refreshToken = resp.data.refresh_token;
     state.user = resp.data.user;
@@ -362,7 +362,7 @@
 
   async function loadFriends() {
     try {
-      const resp = await apiRequest('http://60.205.94.101:8080/v1/friends');
+      const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/friends');
       const friends = resp.data.friends || [];
       state.friends = friends.map((f) => ({
         uid: (f.uid || f.id || '').toUpperCase(),
@@ -380,7 +380,7 @@
 
   async function loadGroups() {
     try {
-      const resp = await apiRequest('http://60.205.94.101:8080/v1/groups/list');
+      const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/list');
       const groups = resp.data.groups || [];
       state.groups = groups.map((g) => ({
         id: (g.group_id || g.id || '').toUpperCase(),
@@ -399,7 +399,7 @@
   async function loadGroupMembers(groupId) {
     if (!groupId) return;
     try {
-      const resp = await apiRequest(`http://60.205.94.101:8080/v1/groups/members?group_id=${encodeURIComponent(groupId)}`);
+      const resp = await apiRequest(`https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/members?group_id=${encodeURIComponent(groupId)}`);
       const members = resp.data.members || [];
       const map = {};
       members.forEach((m) => {
@@ -840,7 +840,7 @@
       return;
     }
     try {
-      const detailResp = await apiRequest(`http://60.205.94.101:8080/v1/redpackets/${encodeURIComponent(packetId)}`);
+      const detailResp = await apiRequest(`https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/redpackets/${encodeURIComponent(packetId)}`);
       const detail = detailResp.data || {};
       const done = String(detail.status || '').toLowerCase() === 'done'
         || Number(detail.remaining_count || 0) <= 0;
@@ -856,7 +856,7 @@
       if (detail.can_claim) {
         const ok = window.confirm(`红包：${title}\n${statusLine}\n是否立即领取？`);
         if (!ok) return;
-        const claimResp = await apiRequest('http://60.205.94.101:8080/v1/redpackets/claim', {
+        const claimResp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/redpackets/claim', {
           method: 'POST',
           body: { packet_id: packetId },
         });
@@ -1139,7 +1139,7 @@
 
   async function loadDirectMessages(uid) {
     try {
-      const resp = await apiRequest(`http://60.205.94.101:8080/v1/direct/messages/v2?with_uid=${encodeURIComponent(uid)}&limit=50&offset=0`);
+      const resp = await apiRequest(`https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/direct/messages/v2?with_uid=${encodeURIComponent(uid)}&limit=50&offset=0`);
       state.messages = (resp.data.messages || []).sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
       renderMessages();
     } catch (err) {
@@ -1149,7 +1149,7 @@
 
   async function loadGroupMessages(groupId) {
     try {
-      const resp = await apiRequest(`http://60.205.94.101:8080/v1/groups/messages/v2?group_id=${encodeURIComponent(groupId)}&limit=50&offset=0`);
+      const resp = await apiRequest(`https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/messages/v2?group_id=${encodeURIComponent(groupId)}&limit=50&offset=0`);
       state.messages = (resp.data.messages || []).sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
       renderMessages();
     } catch (err) {
@@ -1227,7 +1227,7 @@
     const burnAfterSeconds = normalizeBurnSeconds(Number(els.burnSeconds.value || 0));
 
     if (state.active.type === 'direct') {
-      const resp = await apiRequest('http://60.205.94.101:8080/v1/direct/send', {
+      const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/direct/send', {
         method: 'POST',
         body: {
           to_uid: state.active.id,
@@ -1240,7 +1240,7 @@
       state.messages.push(msg);
       appendMessage(msg);
     } else if (state.active.type === 'group') {
-      const resp = await apiRequest('http://60.205.94.101:8080/v1/groups/message/send', {
+      const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/message/send', {
         method: 'POST',
         body: {
           group_id: state.active.id,
@@ -1259,7 +1259,7 @@
 
   async function markDirectRead(uid) {
     try {
-      await apiRequest('http://60.205.94.101:8080/v1/direct/read', { method: 'POST', body: { with_uid: uid } });
+      await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/direct/read', { method: 'POST', body: { with_uid: uid } });
     } catch (err) {
       // ignore
     }
@@ -1267,7 +1267,7 @@
 
   async function markGroupRead(groupId) {
     try {
-      await apiRequest('http://60.205.94.101:8080/v1/groups/read', { method: 'POST', body: { group_id: groupId } });
+      await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/read', { method: 'POST', body: { group_id: groupId } });
     } catch (err) {
       // ignore
     }
@@ -1276,7 +1276,7 @@
   async function fetchUnread() {
     if (!state.accessToken) return;
     try {
-      const directResp = await apiRequest('http://60.205.94.101:8080/v1/direct/unread', {
+      const directResp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/direct/unread', {
         method: 'POST',
         body: { limit: 50 },
       });
@@ -1289,7 +1289,7 @@
       });
       state.unread.direct = directMap;
 
-      const groupResp = await apiRequest('http://60.205.94.101:8080/v1/groups/unread', {
+      const groupResp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/groups/unread', {
         method: 'POST',
         body: { limit: 50 },
       });
@@ -1331,7 +1331,7 @@
     }
 
     const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
-    const wsUrl = `${wsProtocol}://${location.host}http://60.205.94.101:8080/v1/ws?token=${encodeURIComponent(state.accessToken)}&sid=${encodeURIComponent(state.sessionId)}`;
+    const wsUrl = `${wsProtocol}://${location.host}https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/ws?token=${encodeURIComponent(state.accessToken)}&sid=${encodeURIComponent(state.sessionId)}`;
     const ws = new WebSocket(wsUrl);
     state.ws = ws;
 
@@ -1454,7 +1454,7 @@
     const keys = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']);
     const spki = await crypto.subtle.exportKey('spki', keys.publicKey);
     const clientPub = bytesToBase64(new Uint8Array(spki));
-    const resp = await apiRequest('http://60.205.94.101:8080/v1/auth/handshake', {
+    const resp = await apiRequest('https://nwlproxy.dpdns.org/60.205.94.101:8080/v1/auth/handshake', {
       method: 'POST',
       body: { client_pub: clientPub },
       auth: false,
