@@ -35,7 +35,7 @@
     "displayType": "tag"
   },
     {
-    "name": "拾物Siwo Web（原旧聊小店）//已停用",
+    "name": "拾物Siwo Web（原旧聊小店）//已停用，请去siwobbs.top",
     "url": "https://oldchat.shop",
     "description": "拾物Siwo，轻实资源，一应拾取。 交流群：GRP-WO2OM2，聊天室：GRP-NZ09A4",
     "displayText": "小店",
@@ -58,7 +58,7 @@
   {
     "name": "旧聊BBS资源分享论坛（非中国大陆）",
     "url": "https://oldchatbbs.com",
-    "description": "旧聊BBS资源分享论坛是「旧聊」软件的官方社区，汇集软件、游戏、影视、书籍等各类资源的交流与分享，打造怀旧向的综合资源乐园。",
+    "description": "旧聊BBS资源分享论坛是「旧聊」软件的官方社区，汇集软件、游戏、影视、书籍等各类资源的交流与分享，打造怀旧向的综合资源乐园。//当前已由mcl0接手",
     "displayText": "论坛",
     "displayType": "tag"
   },
@@ -71,7 +71,7 @@
   },
   {
     "name": "OldchatBBS",
-    "url": "https://t.oldchatbbs.com",
+    "url": "https://oldchatbbs.com",
     "description": "腐竹mcl0开发的OldchatBBS",
     "displayText": "论坛",
     "displayType": "tag"
@@ -109,6 +109,27 @@
     "url": "https://siwobbs.top",
     "description": "交流解答,有求必应。我们致力于提供以资源,交流与问答的一站式论坛体验，以“轻实资源,一应拾取”为资源的slogan,为您带来轻量,实用的资源分享站。",
     "displayText": "论坛",
+    "displayType": "tag"
+  },
+  {
+    "name": "peng的个人博客",
+    "url": "https://peng.chat",
+    "description": "这个人很懒，什么都没留下",
+    "displayText": "博客",
+    "displayType": "tag"
+  },
+  {
+    "name": "oldappstore",
+    "url": "https://oldapps.cn",
+    "description": "旧应用商店",
+    "displayText": "应用商店",
+    "displayType": "tag"
+  },
+  {
+    "name": "oldmusic",
+    "url": "https://music.mcl0.top",
+    "description": "听音乐",
+    "displayText": "音乐",
     "displayType": "tag"
   }
 ]
